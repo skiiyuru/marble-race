@@ -12,7 +12,6 @@ import {
 
 //optimization techniques
 ColorManagement.legacyMode = false
-
 const boxGeometry = new BoxGeometry(1, 1, 1)
 const floor1Material = new MeshStandardMaterial({ color: "limegreen" })
 const floor2Material = new MeshStandardMaterial({ color: "greenyellow" })
