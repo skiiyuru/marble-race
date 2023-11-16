@@ -9,6 +9,9 @@ import {
   MeshStandardMaterial,
   Quaternion,
 } from "three"
+import Chest from "./Chest"
+import Man from "./Man"
+import Lady from "./Lady"
 
 //optimization techniques
 ColorManagement.legacyMode = false
@@ -64,10 +67,6 @@ export function StartPlatform({ position = [0, 0, 0] }) {
 }
 
 export function EndPlatform({ position = [0, 0, 0] }) {
-  const hamburger = useGLTF("./hamburger.glb")
-  hamburger.scene.children.forEach((mesh) => {
-    mesh.castShadow = true
-  })
   return (
     <group position={position}>
       <Text
@@ -87,13 +86,15 @@ export function EndPlatform({ position = [0, 0, 0] }) {
       />
       <RigidBody
         type="fixed"
-        colliders={"hull"}
         position={[0, 0.25, 0]}
         restitution={0.2}
         friction={0}
       >
-        <primitive object={hamburger.scene} scale={0.2} />
+        <Chest />
       </RigidBody>
+
+      <Man />
+      <Lady />
     </group>
   )
 }

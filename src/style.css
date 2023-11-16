@@ -73,3 +73,12 @@ body,
 .controls .key.active {
   background: #ffffff99;
 }
+
+.footer {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  color: #ffffff;
+  font-size: 20px;
+  /* width: 100%; */
+}

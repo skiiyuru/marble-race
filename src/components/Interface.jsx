@@ -71,6 +71,9 @@ export default function Interface() {
           <div className={`key large ${jump ? "active" : ""}`}></div>
         </div>
       </div>
+
+      {/* Attribution */}
+      <div className="footer">s.kiiyuru</div>
     </div>
   )
 }

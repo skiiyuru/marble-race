@@ -5,7 +5,7 @@ export default create(
   subscribeWithSelector((set) => {
     return {
       // Obstacles
-      obstacleCount: 10,
+      obstacleCount: 20,
       obstacleSeed: 0,
 
       // Timer
