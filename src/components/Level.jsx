@@ -37,7 +37,7 @@ const wallMaterial = new MeshStandardMaterial({
 export function StartPlatform({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
-      <Float floatIntensity={0.25} rotationIntensity={0.25}>
+      <Float floatIntensity={0.25} speed={3} rotationIntensity={0.25}>
         <Text
           scale={0.5}
           font="./bebas-neue-v9-latin-regular.woff"

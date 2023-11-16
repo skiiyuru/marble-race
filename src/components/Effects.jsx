@@ -1,4 +1,9 @@
-import { DepthOfField, EffectComposer, SSR } from "@react-three/postprocessing"
+import {
+  Bloom,
+  DepthOfField,
+  EffectComposer,
+  SSR,
+} from "@react-three/postprocessing"
 
 export default function Effects() {
   return (
@@ -29,7 +34,8 @@ export default function Effects() {
         resolutionScale={1}
         velocityResolutionScale={1}
       /> */}
-      <DepthOfField focusDistance={0.01} focusLength={0.2} bokehScale={3} />
+      {/* <DepthOfField focusDistance={0.01} focusLength={0.2} bokehScale={3} /> */}
+      {/* <Bloom mipmapBlur intensity={0.1} luminanceThreshold={0} /> */}
     </EffectComposer>
   )
 }
