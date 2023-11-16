@@ -3,6 +3,7 @@ import { Level } from "./components/Level.jsx"
 import { Debug, Physics } from "@react-three/rapier"
 import Player from "./components/Player.jsx"
 import useGame from "./stores/useGame.js"
+import Effects from "./components/Effects.jsx"
 
 export default function Experience() {
   const obstacleCount = useGame((state) => state.obstacleCount)
@@ -10,9 +11,11 @@ export default function Experience() {
 
   return (
     <>
+      <color args={["#bdedfc"]} attach={"background"} />
+      <Lights />
+      {/* <Effects /> */}
       <Physics>
         {/* <Debug /> */}
-        <Lights />
         <Level count={obstacleCount} seed={obstacleSeed} />
         <Player />
       </Physics>

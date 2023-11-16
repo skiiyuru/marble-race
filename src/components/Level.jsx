@@ -1,4 +1,4 @@
-import { Gltf, useGLTF } from "@react-three/drei"
+import { Float, Gltf, Text, useGLTF } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { CuboidCollider, RigidBody } from "@react-three/rapier"
 import { useMemo, useRef, useState } from "react"
@@ -13,14 +13,45 @@ import {
 //optimization techniques
 ColorManagement.legacyMode = false
 const boxGeometry = new BoxGeometry(1, 1, 1)
-const floor1Material = new MeshStandardMaterial({ color: "limegreen" })
-const floor2Material = new MeshStandardMaterial({ color: "greenyellow" })
-const obstacleMaterial = new MeshStandardMaterial({ color: "orangered" })
-const wallMaterial = new MeshStandardMaterial({ color: "slategrey" })
+const floor1Material = new MeshStandardMaterial({
+  color: "limegreen",
+  metalness: 0,
+  roughness: 0,
+})
+const floor2Material = new MeshStandardMaterial({
+  color: "greenyellow",
+  metalness: 0,
+  roughness: 0,
+})
+const obstacleMaterial = new MeshStandardMaterial({
+  color: "orangered",
+  metalness: 0,
+  roughness: 1,
+})
+const wallMaterial = new MeshStandardMaterial({
+  color: "slategrey",
+  metalness: 0,
+  roughness: 0,
+})
 
 export function StartPlatform({ position = [0, 0, 0] }) {
   return (
     <group position={position}>
+      <Float floatIntensity={0.25} rotationIntensity={0.25}>
+        <Text
+          scale={0.5}
+          font="./bebas-neue-v9-latin-regular.woff"
+          maxWidth={0.25}
+          lineHeight={0.75}
+          textAlign="right"
+          position={[0.75, 0.65, 0]}
+          rotation-y={-0.25}
+        >
+          Marble Race
+          <meshBasicMaterial toneMapped={false} />
+        </Text>
+      </Float>
+
       <mesh
         geometry={boxGeometry}
         material={floor1Material}
@@ -39,6 +70,14 @@ export function EndPlatform({ position = [0, 0, 0] }) {
   })
   return (
     <group position={position}>
+      <Text
+        scale={1}
+        font="./bebas-neue-v9-latin-regular.woff"
+        position={[0, 2.25, 2]}
+      >
+        FINISH
+        <meshBasicMaterial toneMapped={false} />
+      </Text>
       <mesh
         geometry={boxGeometry}
         material={floor1Material}
