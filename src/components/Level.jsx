@@ -243,6 +243,7 @@ function Bounds({ length = 1 }) {
 export function Level({
   count = 5,
   types = [SpinnerPlatform, LimboPlatform, AxePlatform],
+  seed = 0,
 }) {
   const platforms = useMemo(() => {
     const selections = []
@@ -252,7 +253,7 @@ export function Level({
       selections.push(randomSelection)
     }
     return selections
-  }, [count, types])
+  }, [count, types, seed])
 
   return (
     <>

@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber"
 import { RigidBody, useRapier } from "@react-three/rapier"
 import { useEffect, useRef, useState } from "react"
 import { Vector3 } from "three"
+import useGame from "../stores/useGame"
 
 export default function Player() {
   const ball = useRef()
@@ -12,6 +13,11 @@ export default function Player() {
 
   const [smoothedCameraPosition] = useState(() => new Vector3(10, 10, 10))
   const [smoothedCameraTarget] = useState(() => new Vector3())
+
+  const start = useGame((state) => state.start)
+  const end = useGame((state) => state.end)
+  const restart = useGame((state) => state.restart)
+  const obstacleCount = useGame((state) => state.obstacleCount)
 
   function jump() {
     // prevent double jump
@@ -26,7 +32,24 @@ export default function Player() {
     }
   }
 
+  function reset() {
+    ball.current.setTranslation({ x: 0, y: 1, z: 0 })
+    ball.current.setLinvel({ x: 0, y: 0, z: 0 }) // remove linear velocity/force
+    ball.current.setAngvel({ x: 0, y: 0, z: 0 }) // remove angular velocity/force
+  }
+
   useEffect(() => {
+    // listen to phase changes
+    const unsubscribeReset = useGame.subscribe(
+      (state) => state.phase,
+      (phase) => {
+        if (phase === "ready") {
+          reset()
+        }
+      }
+    )
+
+    // listen to jump key press
     const unsubscribeJump = subscribeKeys(
       // selector
       (state) => state.jump,
@@ -38,8 +61,15 @@ export default function Player() {
       }
     )
 
+    // listen to any key press
+    const unsubscribeAny = subscribeKeys(() => {
+      start()
+    })
+
     return () => {
+      unsubscribeReset()
       unsubscribeJump()
+      unsubscribeAny()
     }
   }, [])
 
@@ -76,7 +106,7 @@ export default function Player() {
     ball.current.applyImpulse(impulse)
     ball.current.applyTorqueImpulse(torque)
 
-    // Camera
+    // update camera
     const ballPosition = ball.current.translation()
     const cameraPosition = new Vector3().copy(ballPosition)
     cameraPosition.z += 2.25
@@ -90,6 +120,15 @@ export default function Player() {
 
     state.camera.position.copy(smoothedCameraPosition)
     state.camera.lookAt(smoothedCameraTarget)
+
+    // Update phase
+    if (ballPosition.z < -(obstacleCount * 4 + 2)) {
+      end()
+    }
+
+    if (ballPosition.y < -4) {
+      restart()
+    }
   })
 
   return (
