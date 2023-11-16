@@ -19,6 +19,10 @@ export default function Player() {
   const restart = useGame((state) => state.restart)
   const obstacleCount = useGame((state) => state.obstacleCount)
 
+  // create the sound only once
+  const [backgroundMusic] = useState(() => new Audio("./main.mp3"))
+  const [finishSound] = useState(() => new Audio("./finish.mp3"))
+
   function jump() {
     // prevent double jump
     const origin = ball.current.translation()
@@ -45,6 +49,15 @@ export default function Player() {
       (phase) => {
         if (phase === "ready") {
           reset()
+          backgroundMusic.pause()
+          finishSound.pause()
+        } else if (phase === "ended") {
+          backgroundMusic.volume = 0.3
+          finishSound.currentTime = 0
+          finishSound.play()
+        } else if (phase === "playing") {
+          backgroundMusic.currentTime = 0
+          backgroundMusic.play()
         }
       }
     )
